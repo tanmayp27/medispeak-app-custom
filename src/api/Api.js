@@ -2,8 +2,8 @@ import { useAtom } from "jotai";
 import { authAtom } from "../store/AuthStore";
 import { notify } from "../store/notifications";
 
-const BASE_URL = "https://app.medispeak.in/";
-// const BASE_URL = "http://localhost:3000/";
+//const BASE_URL = "https://app.medispeak.in/";
+const BASE_URL = "http://localhost:3000/";
 
 export function request(url, method = "GET", data) {
   const authToken = sessionStorage.getItem("access_token");

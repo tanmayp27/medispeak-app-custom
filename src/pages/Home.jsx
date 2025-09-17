@@ -347,7 +347,8 @@ export default function Home({ onHide, transcriptionRecord }) {
               <div
                 onClick={() => {
                   populateFieldsOnPage(autofillData, pageData.form_fields);
-                  onHide();
+                  console.log("Form fields:", pageData.form_fields);
+                  //onHide();
                 }}
                 className="tw-button tw-rounded-full tw-flex tw-items-center tw-space-x-4 tw-px-4 tw-py-2 tw-bg-blue-600 tw-text-white tw-cursor-pointer hover:tw-bg-blue-700"
               >
@@ -381,30 +382,62 @@ export default function Home({ onHide, transcriptionRecord }) {
             ))}
         </div>
         {/* Recording Controls */}
-        {pageData && !recordingUri && (
-          <>
-            <Player
-              controlledState={playerState}
-              onRecordingReady={(recordingBlob, duration) => {
-                setRecordingUri(URL.createObjectURL(recordingBlob));
-                const recordingFile = new File(
-                  [recordingBlob],
-                  "recording.wav",
-                  { type: "audio/wav" }
-                );
-                setRecordingObj({
-                  file: recordingFile,
-                  duration: duration,
-                });
-              }}
-            />
-            {!recordingObj && (
-              <div className="tw-flex tw-justify-center tw-items-start tw-h-1/2 tw-p-4 tw-text-sm tw-text-gray-700">
-                <span>Record your voice note to get started</span>
-              </div>
-            )}
-          </>
-        )}
+              {pageData && !recordingUri && (
+                  <>
+                      {/* Live Recorder */}
+                      <Player
+                          controlledState={playerState}
+                          onRecordingReady={(recordingBlob, duration) => {
+                              setRecordingUri(URL.createObjectURL(recordingBlob));
+                              const recordingFile = new File(
+                                  [recordingBlob],
+                                  "recording.wav",
+                                  { type: "audio/wav" }
+                              );
+                              setRecordingObj({
+                                  file: recordingFile,
+                                  duration: duration,
+                              });
+                          }}
+                      />
+
+                      {/* Upload Audio File Option */}
+                      <div className="tw-flex tw-flex-col tw-items-center tw-gap-2 tw-my-4">
+                          <label
+                              htmlFor="upload-audio"
+                              className="tw-text-sm tw-text-gray-700 tw-font-medium"
+                          >
+                              Or upload a pre-recorded audio file
+                          </label>
+                          <input
+                              type="file"
+                              accept="audio/*"
+                              id="upload-audio"
+                              className="tw-text-sm tw-text-gray-600"
+                              onChange={(e) => {
+                                  const file = e.target.files[0];
+                                  if (file) {
+                                      const audioURL = URL.createObjectURL(file);
+                                      const audio = new Audio(audioURL);
+                                      audio.onloadedmetadata = () => {
+                                          setRecordingUri(audioURL);
+                                          setRecordingObj({
+                                              file,
+                                              duration: audio.duration,
+                                          });
+                                      };
+                                  }
+                              }}
+                          />
+                      </div>
+
+                      {!recordingObj && (
+                          <div className="tw-flex tw-justify-center tw-items-start tw-h-1/2 tw-p-4 tw-text-sm tw-text-gray-700">
+                              <span>Record or upload your voice note to get started</span>
+                          </div>
+                      )}
+                  </>
+              )}
       </div>
     </div>
   );
