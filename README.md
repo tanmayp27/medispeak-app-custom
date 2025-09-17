@@ -1,10 +1,13 @@
 # Medispeak
 
-Medispeak is a powerful utility built in ReactJS that enables context-based voice autofill for medical forms. It can be used as a Chrome Extension or injected into any website, making it compatible with Electronic Medical Record (EMR) systems worldwide.
+Medispeak is a powerful utility built in ReactJS that enables context-based voice autofill for medical forms. It can be used as a Chrome Extension or injected into any website, making it compatible with Electronic Medical Record (EMR) systems worldwide. 
+
+Please note: This is a custom variant of the frontend for the Medispeak app with changes made to aid compatibility with the docker version of Bahmni. Part of an internship project at IPLit Solutions.
 
 ## Features
 
 - Voice-to-text autofill for medical forms
+- Record / Upload files for transcription (Upload feature new)
 - Compatible with any EMR system
 - Available as a Chrome Extension
 - Can be injected into any website
